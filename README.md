@@ -1,2 +1,2 @@
-# Train-Scheduler
+# [Train-Scheduler](https://jaswhitehead.github.io/Train-Scheduler/)
 This train schedule application incorporates Firebase to host arrival and departure data for different lines.  The app retrieves and manipulates this information with Moment.js. This website provides up-to-date information about various trains, namely their arrival times and how many minutes remain until they arrive at their station according to the current time of day in military time.
