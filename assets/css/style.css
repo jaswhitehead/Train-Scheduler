@@ -1,17 +1,64 @@
 #titleJumbotron {
-    background-image: url(../images/steam_engine.jpg); 
+    background-image: url(../images/sTrain.jpg); 
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    height: 350px;
+    height: 400px;
     color: white;
 }
 
 #block {
-    background-color: black;
-    opacity: .7;
-   position: relative;
-    display: flex;
+  background-color: black;
+  opacity: .7;
+  position: relative;
+  display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* Heading*/
+.title{
+  /* background: #3bafba; */
+  background: rgb(26, 29, 34);
+  padding: 10px 0px 10px 10px;
+  color: white;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+/* Table*/
+thead {
+  border-bottom: 1px solid #000000;
+  background-color: #d3d3d3
+}
+
+tr {
+  border-top: 1px solid #000000;
+}
+
+th{
+  padding: 0 4em 0 0;
+}
+
+.tableEntry {
+  color: rgb(103, 160, 212);
+}
+
+#submit {
+  width: auto;
+  background-color: blue;
+  color: white;
+  justify-self: center;
+}
+
+/* Form */
+input {
+  width: 100%;
 }
