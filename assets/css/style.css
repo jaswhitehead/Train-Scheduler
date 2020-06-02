@@ -1,0 +1,17 @@
+#titleJumbotron {
+    background-image: url(../images/steam_engine.jpg); 
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 350px;
+    color: white;
+}
+
+#block {
+    background-color: black;
+    opacity: .7;
+   position: relative;
+    display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
