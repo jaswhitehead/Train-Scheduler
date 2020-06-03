@@ -128,3 +128,138 @@ function displaySchedule(snapshot) {
   $("#trainTable").append(tableRow)
 
 }
+
+// Deletes data from Firebase and website
+$(document).on("click", ".trash", function (event) {
+    let currKey = $(this).attr("data-key");
+    let trainRef = database.ref(currKey);
+    trainRef.remove();
+    $(this).closest('tr').remove()
+  });
+  
+  // Edit, Save & Cancel Button Functionality
+  $(document).ready(function ($) {
+    $(document).on("click", ".edit", function (event) {
+      let currKey = $(this).attr("data-key");
+      let trainRef = database.ref(currKey);
+  
+      var random_id = function () {
+        var id_num = Math.random().toString(9).substr(2, 3);
+        var id_str = Math.random().toString(36).substr(2);
+  
+        return id_num + id_str;
+      }
+  
+      //--->make div editable > start
+      $(document).on('click', '.row_data', function (event) {
+        event.preventDefault();
+  
+        if ($(this).attr('edit_type') == 'button') {
+          return false;
+        }
+  
+      })
+  
+      //--->button > edit > start	
+      $(document).on('click', '.edit', function (event) {
+        event.preventDefault();
+        var tbl_row = $(this).closest('tr');
+  
+  
+        //make the whole row editable
+        tbl_row.find('.row_data')
+          .attr('contenteditable', 'true')
+          .attr('edit_type', 'button')
+          .addClass('bg-warning')
+          .css('padding', '3px')
+  
+        //--->add the original entry > start
+        tbl_row.find('.row_data').each(function (index, val) {
+          //this will help in case user decided to click on cancel button
+          $(this).attr('original_entry', $(this).html());
+        });
+        //--->add the original entry > end
+  
+      });
+  
+      //--->button > cancel > start	
+      $(document).on('click', '.btn_cancel', function (event) {
+        event.preventDefault();
+  
+        var tbl_row = $(this).closest('tr');
+  
+        //make the whole row editable
+        tbl_row.find('.row_data')
+          //	.attr('edit_type', 'click')
+          .removeClass('bg-warning')
+          .css('padding', '')
+  
+        tbl_row.find('.row_data').each(function (index, val) {
+          $(this).html($(this).attr('original_entry'));
+        });
+      });
+  
+      //--->save whole row entery > start	
+      $(document).on('click', '.btn_save', function (event) {
+        event.preventDefault();
+        var tbl_row = $(this).closest('tr');
+  
+        var row_id = tbl_row.attr('row_id');
+  
+        //make the whole row editable
+        tbl_row.find('.row_data')
+          .attr('edit_type', 'click')
+          .removeClass('bg-warning')
+          .css('padding', '')
+  
+        //--->get row data > start
+        var arr = {};
+        tbl_row.find('.row_data').each(function (index, val) {
+          var col_name = $(this).attr('col_name');
+          var col_val = $(this).html();
+          arr[col_name] = col_val;
+        });
+        //--->get row data > end
+  
+        //use the "arr"	object for your ajax call
+        $.extend(arr, {
+          row_id: row_id
+        });
+  
+  
+        /*  database.ref().update({
+            trainName,
+            destination,
+            frequency
+        }); */
+  
+        //out put to show
+        $('.post_msg').html('<pre class="bg-success">' + JSON.stringify(arr, null, 2) + '</pre>')
+  
+      });
+  
+    });
+  
+  
+  });
+  
+    // Display next train time
+    // startTime:UTC, frequency: integer
+    function updateTrainTime(startTime, frequency) {
+  
+      // Calculate the time difference between now and the first train time
+      var trainDiff = moment().diff(startTime, "minutes");
+  
+      // If trainDiff is negative: remainder = minutes to next train
+      // If trainDiff is positive: remainder = minutes since last train
+      var remainder = trainDiff % frequency;
+  
+      var minToArrival;
+      if (trainDiff < 0) {
+        minToArrival = Math.abs(remainder) + 1;
+      } else {
+        minToArrival = frequency - remainder;
+      }
+      return (minToArrival);
+  
+    }
