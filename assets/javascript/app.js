@@ -1,5 +1,6 @@
-<script>
-  // My app's Firebase configuration
+$(document).ready(function(){
+
+//My app's Firebase configuration
   var firebaseConfig = {
     apiKey: "AIzaSyCvRBUu1WJ5Fu8OV0kBy806ZC86sWILono",
     authDomain: "train-scheduler-f501a.firebaseapp.com",
@@ -10,10 +11,10 @@
     appId: "1:581021801870:web:37bce3dd858ee24a9918df",
     measurementId: "G-3ZRMCPKECW"
   };
-  // Initialize Firebase
+// Initialize Firebase
   firebase.initializeApp(firebaseConfig);
   firebase.analytics();
-</script>
+
 
   var database = firebase.database();
   
