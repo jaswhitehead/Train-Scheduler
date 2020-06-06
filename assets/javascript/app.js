@@ -1,265 +1,64 @@
-  // Your web app's Firebase configuration
+<script>
+  // My app's Firebase configuration
   var firebaseConfig = {
-    apiKey: "AIzaSyA-_ksnuKCXR7v80gikVA2KZe095Hi8n1k",
-    authDomain: "train-scheduler-ecdc8.firebaseapp.com",
-    databaseURL: "https://train-scheduler-ecdc8.firebaseio.com",
-    projectId: "train-scheduler-ecdc8",
-    storageBucket: "train-scheduler-ecdc8.appspot.com",
-    messagingSenderId: "410280194782",
-    appId: "1:410280194782:web:3d4f69500f8f6bb3b1c84f",
-    measurementId: "G-9R56R4YCPC"
+    apiKey: "AIzaSyCvRBUu1WJ5Fu8OV0kBy806ZC86sWILono",
+    authDomain: "train-scheduler-f501a.firebaseapp.com",
+    databaseURL: "https://train-scheduler-f501a.firebaseio.com",
+    projectId: "train-scheduler-f501a",
+    storageBucket: "train-scheduler-f501a.appspot.com",
+    messagingSenderId: "581021801870",
+    appId: "1:581021801870:web:37bce3dd858ee24a9918df",
+    measurementId: "G-3ZRMCPKECW"
   };
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
   firebase.analytics();
+</script>
 
   var database = firebase.database();
-
-console.log(database);
-
-var trainName = "";
-var destination = "";
-var firstTrain = "";
-var frequency = 0;
-
-// Sets and displays current date and time on page
-function updateClock() {
-  $("#currentDate").text(moment().format("MMMM Do YYYY HH:mm"));
   
-  setTimeout(updateClock, 1000);
-};
-
-updateClock(); 
-
-// Checks if string is empty
-const isEmpty = function (str) {
-  return str.trim() === '';
-};
-
-$("#submitButton").on("click", function (event) {
-  event.preventDefault();
-
-  var trainName = $("#trainNameInput").val().trim();
-  var destination = $("#destinationInput").val().trim();
-  var firstTrain = $("#firstTrainInput").val().trim();
-  var frequency = $("#frequencyInput").val().trim();
-
-  const invalid = [trainName, destination, firstTrain, frequency].filter(isEmpty);
-
-  if (invalid.length) {
-    alert("Invalid Input")
-    return;
-  };
-
-  database.ref().push({
-    trainName,
-    destination,
-    firstTrain,
-    frequency
-  });
-
-  console.log("hello")
-
-  document.getElementById("myform").reset();
-
-});
-
-
-// Manipulates and displays data from Firebase
-database.ref().on("child_added", function (snapshot) {
-  console.log(snapshot.val());
-  displaySchedule(snapshot);
-});
-
-
-function displaySchedule(snapshot) {
-
-
-  let data = snapshot.val();
-
-  // Frequency
-  let tFrequency = data.frequency;
-
-  // First train time
-  let firstTime = data.firstTrain;
-
-  // First Time (pushed back 1 year to make sure it comes before current time)
-  let firstTimeConverted = moment(firstTime, "HH:mm").subtract(1, "years");
-  console.log(firstTimeConverted);
-
-  // Current Time
-  let currentTime = moment();
-  console.log("CURRENT TIME: " + moment(currentTime).format("HH:mm"));
-
-  // Difference between the times
-  let diffTime = moment().diff(moment(firstTimeConverted), "minutes");
-  console.log("DIFFERENCE IN TIME: " + diffTime);
-
-  // Time apart (remainder)
-  let tRemainder = diffTime % tFrequency;
-  console.log(tRemainder);
-
-  // Minute Until Train
-  var tMinutesTillTrain = tFrequency - tRemainder;
-  console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
-
-  // Next Train
-  let nextTrain = moment().add(tMinutesTillTrain, "minutes");
-  console.log("ARRIVAL TIME: " + moment(nextTrain).format("HH:mm"));
-
-  let time = firstTime;
-  let frequency = tFrequency;
-  let minToA = updateTrainTime(time, frequency);
-
-  // Appends data to website
-  var tableRow = $("<tr id='row'>").append(
-    $("<td class='row_data'>").text(data.trainName),
-    $("<td class='row_data text-center'>").text(data.destination),
-    $("<td class='row_data text-center'>").text(data.frequency),
-    $("<td class='arrTime text-center'>").text(moment(nextTrain).format("HH:mm")),
-    $("<td class='mins text-center' id='tilTrain'> data-key=" + snapshot.key + "").text(tMinutesTillTrain),
-    //+ "<td class='mins' data-key="+snapshot.key+">" + minToA +  "</td>",
-    $("<td class='text-center'><i class='far fa-edit edit' id='editIcon'></i></td>"),
-    $("<td class='text-center'><i class='far fa-save btn_save' id='saveIcon'></i></td>"),
-    $("<td class='text-center'><i class='fas fa-eject btn_cancel' id='cancelIcon'></i></td>"),
-    $("<td class='text-center'><i class='far fa-trash-alt trash' id='trashIcon' data-key=" + snapshot.key + "></i></tr>")
-  );
-
-  $("#trainTable").append(tableRow)
-
-}
-
-// Deletes data from Firebase and website
-$(document).on("click", ".trash", function (event) {
-    let currKey = $(this).attr("data-key");
-    let trainRef = database.ref(currKey);
-    trainRef.remove();
-    $(this).closest('tr').remove()
-  });
-  
-  // Edit, Save & Cancel Button Functionality
-  $(document).ready(function ($) {
-    $(document).on("click", ".edit", function (event) {
-      let currKey = $(this).attr("data-key");
-      let trainRef = database.ref(currKey);
-  
-      var random_id = function () {
-        var id_num = Math.random().toString(9).substr(2, 3);
-        var id_str = Math.random().toString(36).substr(2);
-  
-        return id_num + id_str;
-      }
-  
-      //--->make div editable > start
-      $(document).on('click', '.row_data', function (event) {
+    $(".submitButton").on("click",function(event) {
         event.preventDefault();
+        console.log("Ready")
   
-        if ($(this).attr('edit_type') == 'button') {
-          return false;
-        }
+        var trainName = $("#trainName").val().trim();
+        var destination = $("#destination").val().trim();
+        var firstTrainTime = $("#firstTrainTime").val().trim();
+        var frequency = parseInt($("#frequency").val().trim());
+  
+        var train = {
+            trainName:trainName,
+            destination:destination,
+            firstTrainTime:firstTrainTime,
+            frequency:frequency
+  
+        };
+        database.ref().push(train)
+        $(".form-control").val("");
+  
+  })
+      database.ref().on("child_added",function(childSnapshot){
+          
+          var trainData = childSnapshot.val()
+          var convertedFirstTrainTime = moment(trainData.firstTrainTime,"HH:mm");
+          var difference = moment().diff(moment(convertedFirstTrainTime),"minutes");
+          var timeRemaining = difference % trainData.frequency;db
+          var minutesAway = trainData.frequency - timeRemaining;
+          var nextArrival = moment().add(minutesAway,"minutes");
+          nextArrival = moment(nextArrival).format("HH:mm");
+  
+          $("#trainInfo").append(
+              `
+              <tr>
+                      <td>${trainData.trainName}</td>
+                      <td>${trainData.destination}</td>
+                      <td>${trainData.frequency}</td>
+                      <td>${nextArrival}</td>
+                      <td>${minutesAway}</td>
+              </tr>
+              `
+          )
+  
   
       })
-  
-      //--->button > edit > start	
-      $(document).on('click', '.edit', function (event) {
-        event.preventDefault();
-        var tbl_row = $(this).closest('tr');
-  
-  
-        //make the whole row editable
-        tbl_row.find('.row_data')
-          .attr('contenteditable', 'true')
-          .attr('edit_type', 'button')
-          .addClass('bg-warning')
-          .css('padding', '3px')
-  
-        //--->add the original entry > start
-        tbl_row.find('.row_data').each(function (index, val) {
-          //this will help in case user decided to click on cancel button
-          $(this).attr('original_entry', $(this).html());
-        });
-        //--->add the original entry > end
-  
-      });
-  
-      //--->button > cancel > start	
-      $(document).on('click', '.btn_cancel', function (event) {
-        event.preventDefault();
-  
-        var tbl_row = $(this).closest('tr');
-  
-        //make the whole row editable
-        tbl_row.find('.row_data')
-          //	.attr('edit_type', 'click')
-          .removeClass('bg-warning')
-          .css('padding', '')
-  
-        tbl_row.find('.row_data').each(function (index, val) {
-          $(this).html($(this).attr('original_entry'));
-        });
-      });
-  
-      //--->save whole row entery > start	
-      $(document).on('click', '.btn_save', function (event) {
-        event.preventDefault();
-        var tbl_row = $(this).closest('tr');
-  
-        var row_id = tbl_row.attr('row_id');
-  
-        //make the whole row editable
-        tbl_row.find('.row_data')
-          .attr('edit_type', 'click')
-          .removeClass('bg-warning')
-          .css('padding', '')
-  
-        //--->get row data > start
-        var arr = {};
-        tbl_row.find('.row_data').each(function (index, val) {
-          var col_name = $(this).attr('col_name');
-          var col_val = $(this).html();
-          arr[col_name] = col_val;
-        });
-        //--->get row data > end
-  
-        //use the "arr"	object for your ajax call
-        $.extend(arr, {
-          row_id: row_id
-        });
-  
-  
-        /*  database.ref().update({
-            trainName,
-            destination,
-            frequency
-        }); */
-  
-        //out put to show
-        $('.post_msg').html('<pre class="bg-success">' + JSON.stringify(arr, null, 2) + '</pre>')
-  
-      });
-  
-    });
-  
-  
-  });
-  
-    // Display next train time
-    // startTime:UTC, frequency: integer
-    function updateTrainTime(startTime, frequency) {
-  
-      // Calculate the time difference between now and the first train time
-      var trainDiff = moment().diff(startTime, "minutes");
-  
-      // If trainDiff is negative: remainder = minutes to next train
-      // If trainDiff is positive: remainder = minutes since last train
-      var remainder = trainDiff % frequency;
-  
-      var minToArrival;
-      if (trainDiff < 0) {
-        minToArrival = Math.abs(remainder) + 1;
-      } else {
-        minToArrival = frequency - remainder;
-      }
-      return (minToArrival);
-  
-    }
+  })
