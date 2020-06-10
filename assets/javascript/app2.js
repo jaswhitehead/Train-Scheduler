@@ -40,20 +40,20 @@ var firebaseConfig = {
         var futureTrains = "";
 
         // Function that runs once the submit button is clicked to add a new train
-        $("#submit-button").on("click", function() {
-            event.preventDefault();
+        $("#submit-button").on("click", function(e) {
+            e.preventDefault();
 
                 // Grabs newly added train information and stores in variables 
-                trainName = $("#trainName").val();
+                var trainName = $("#trainName").val();
                 console.log (trainName);
 
-                destination = $("#destination").val();
+                var destination = $("#destination").val();
                 console.log (destination);
 
-                firstTrainTime = $("#firstTrainTime").val();
+                var firstTrainTime = $("#firstTrainTime").val();
                 console.log (firstTrainTime);
 
-                frequency = $("#frequency").val();
+                var frequency = $("#frequency").val();
                 console.log (frequency);
 
                     // Grabs the newly stored information and sends it to be stored in the database
