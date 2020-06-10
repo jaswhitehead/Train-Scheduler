@@ -1,5 +1,3 @@
-$(document).ready(function(){
-
 //My app's Firebase configuration
   var firebaseConfig = {
     apiKey: "AIzaSyCvRBUu1WJ5Fu8OV0kBy806ZC86sWILono",
@@ -12,16 +10,18 @@ $(document).ready(function(){
     measurementId: "G-3ZRMCPKECW"
   };
 // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
+  var train1 = firebase.initializeApp(firebaseConfig, 'train1');
   firebase.analytics();
 
-
+// Initializez Database
   var database = firebase.database();
-  
+
+  // CAPTURE BUTTON CLICK
     $(".submitButton").on("click",function(event) {
         event.preventDefault();
         console.log("Ready")
   
+  //VALUES FOR EACH VARIABLE IN HTML
         var trainName = $("#trainName").val().trim();
         var destination = $("#destination").val().trim();
         var firstTrainTime = $("#firstTrainTime").val().trim();
@@ -38,6 +38,8 @@ $(document).ready(function(){
         $(".form-control").val("");
   
   })
+
+//ON CLICK CHILD FUNCTION
       database.ref().on("child_added",function(childSnapshot){
           
           var trainData = childSnapshot.val()
@@ -47,8 +49,15 @@ $(document).ready(function(){
           var minutesAway = trainData.frequency - timeRemaining;
           var nextArrival = moment().add(minutesAway,"minutes");
           nextArrival = moment(nextArrival).format("HH:mm");
+
+          console.log("Name: " + trainName);
+	        console.log("Destination: " + destination);
+        	console.log("Time: " + firstTrainTime);
+        	console.log("Frequency: " + frequency);
+
   
-          $("#trainInfo").append(
+//APPEND TO DISPLAY IN TRAIN TABLE
+        $("#trainInfo").append(
               `
               <tr>
                       <td>${trainData.trainName}</td>
@@ -59,7 +68,4 @@ $(document).ready(function(){
               </tr>
               `
           )
-  
-  
-      })
-  })
+        })
