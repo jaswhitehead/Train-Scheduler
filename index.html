@@ -9,6 +9,8 @@
      integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
     <!--Interanl CSS Style sheet -->
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <!--Favicon-->
+	<link rel="icon" type="image/png" href="assets/images/favicon.png">
     <!-- Firebase Links -->
     <script src="https://www.gstatic.com/firebasejs/7.15.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.15.0/firebase-analytics.js"></script>
@@ -21,17 +23,17 @@
 
 <body>
     <div class="container">
-        <!-- Jumbotron with page headers and title information -->
+        
+        <!-- Jumbotron with page headers and Current Time -->
         <div class="jumbotron jumbotron-fluid text-center" id="titleJumbotron">
             <div id="block" class="my-auto">
             <h1>All Aboard!</h1>
             <h2>Chooka Chooka Chooka!</h2>
-            <h4>Current Time:</h4>
-            <div class="text">Time displayed as moment.format('HH:mm:ss a') <div class=".countdown" id ="clock"></div><br></div>
-            </div>
-        </div>
+            <p id="theTime"></p>
+        </div>    
+    </div>
     <div class = "title row">
-        <div class="col-md-9">Daily Train Schedule</div>
+        <div class="col-md-9">Train Schedule</div>
             <div id="currentDate" class="float-right pr-3 col-md-3"></div> 
     </div> 
     <!-- Table that holds current train schedules and any additions to that schedule -->
@@ -55,23 +57,24 @@
 
     <!-- Form for adding a train to the daily train schedule -->
     <div class="card card-body">
-        <h3><strong>Add Train</strong></h3>
+        <h3><strong><u>Add a Train</u></strong></h3>
+        <br>
         <form>
             <div class="form-group">
                 <label for="InputTrainName">
-                    <h6>Train Name</h6>
+                    <h6><strong>Train Name:</strong></h6>
                 </label>
                 <input type="text" class="form-control" id="trainName" placeholder="Enter Train Name">
                 <label for="trainName">
-                    <h6>Destination</h6>
+                    <h6><strong><br>Destination:</strong></h6>
                 </label>
                 <input type="text" class="form-control" id="destination" placeholder="Enter Destination">
                 <label for="destination">
-                    <h6>First Train Time</h6>
+                    <h6><strong><br>First Train Time: (Military Time HH:MM)</strong></h6>
                 </label>
                 <input type="time" class="form-control" id="firstTrainTime" placeholder="Enter First Train Time">
                 <label for="firstTrainTime">
-                    <h6>Frequency</h6>
+                    <h6><strong><br>Frequency:</strong></h6>
                 </label>
                 <input type="number" class="form-control" id="frequency" placeholder="Enter Frequency">
             </div>

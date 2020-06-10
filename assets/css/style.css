@@ -33,6 +33,10 @@ body {
   margin-right: 0;
 }
 
+#theTime {
+	font-weight: bolder;
+}
+
 /* Table*/
 thead {
   border-bottom: 1px solid #000000;

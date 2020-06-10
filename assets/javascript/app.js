@@ -16,12 +16,15 @@
 // Initializes Database
   var database = firebase.database();
 
-//**Sets time for home page (NOT WORKING)
-//  $(document).ready(function () {
-//  setInterval(function () {
-//     $(".now").text(moment(now).format('h:mm:ss a'));
-//  }, 100);
+//	Display Current Time
+function publishTime (){
+  var currentTimeFormat = "hh:mm:ss A";
+  var currentTime = moment(moment(), currentTimeFormat);
+  var currentTimeFormatted = currentTime.format(currentTimeFormat);
+  $('#theTime').html('Current Time: ' + currentTimeFormatted)
+  };
 
+setInterval(publishTime, 1000);
 
 // CAPTURE BUTTON CLICK
     $(".submitButton").on("click",function(event) {
@@ -82,5 +85,5 @@
               </tr>
               `
           )
-         })
+
     
