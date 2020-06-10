@@ -4,7 +4,8 @@
     background-size: cover;
     background-position: center;
     height: 400px;
-    color: white;
+    color:pink;
+    
 }
 
 #block {
@@ -34,7 +35,9 @@ body {
 }
 
 #theTime {
-	font-weight: bolder;
+  font-weight: bolder;
+  font-size: x-large;
+  color: aqua;
 }
 
 /* Table*/
