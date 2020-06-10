@@ -15,10 +15,10 @@ var firebaseConfig = {
 
     //	Display Current Time
     function publishTime (){
-        var currentTimeFormat = "hh:mm:ss a";
+        var currentTimeFormat = "MMMM Do YYYY, hh:mm:ss a";
         var currentTime = moment(moment(), currentTimeFormat);
         var currentTimeFormatted = currentTime.format(currentTimeFormat);
-        $('#theTime').html('Current Time: ' + currentTimeFormatted)
+        $('#theTime').html(currentTimeFormatted)
         };
 
         setInterval(publishTime, 1000);
